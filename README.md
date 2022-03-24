@@ -52,7 +52,8 @@ import "github.com/lauslim12/basic"
 
 ```go
 func main() {
-    users := map[string]string{"nehemiah":"nehemiah"}
+    // Create a one-to-one mapping of username and password.
+    users := map[string]string{"nehemiah":"nehemiahpassword"}
 
     // Use default authenticator function, set charset to UTF-8, use default invalid scheme response,
     // use default invalid credentials response, set custom realm, and set static user list.
@@ -67,7 +68,7 @@ func main() {
 - Test the endpoint!
 
 ```bash
-curl -u nehemiah:nehemiah <API_ENDPOINT_URL>
+curl -u nehemiah:nehemiahpassword <API_ENDPOINT_URL>
 ```
 
 - Done!
@@ -97,7 +98,7 @@ func main() {
 }
 ```
 
-- You can customize your `Authenticator` function (signature is `func(username, password string) bool`), `Charset` (defaults to `UTF-8` according to RFC 7617), `InvalidSchemeResponse` (signature is `http.Handler`), `InvalidCredentialsResponse` (signature is `http.Handler`), `Realm` (signature is `string`), and `Users` (signature is `map[string]string`). As long as it conforms to the interface / function signature, you can customize it with anything you want.
+- You can customize your `Authenticator` function (signature is `func(username, password string) bool`), `Charset` (defaults to `UTF-8` according to RFC 7617), `InvalidSchemeResponse` (signature is `http.Handler`), `InvalidCredentialsResponse` (signature is `http.Handler`), `Realm` (signature is `string`), and `Users` (signature is `map[string]string`). `Users` itself will contain the 1-to-1 mapping of username and password. As long as it conforms to the interface / function signature, you can customize it with anything you want.
 
 ## Examples
 

@@ -18,7 +18,8 @@
 // As a note about the `BasicAuth` attributes, you may use the authenticator function in order to perform a more
 // sophisticated authentication logic, such as pulling your user based on their username from the database. Another thing to note is that
 // you can pass `nil` or `make(map[string]string)` to the `Users` attribute if you do not need static credentials. Finally, the
-// `WWW-Authenticate` header is only sent if both `Charset` and `Realm` are set.
+// `WWW-Authenticate` header is only sent if both `Charset` and `Realm` are set. `Users` attribute is a 1-to-1 mapping of username
+// and password.
 //
 // See example in `example/main.go`.
 package basic
