@@ -38,4 +38,4 @@ jobs:
             })
 
       - name: Ping the 'proxy.golang.org' to update the documentation
-        run: GOPROXY=proxy.golang.org go list -m github.com/lauslim12/basic@${{ github.event.inputs.version }}
+        run: curl https://proxy.golang.org/github.com/lauslim12/basic/@v/${{ github.event.inputs.version }}.info
