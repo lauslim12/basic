@@ -86,7 +86,12 @@ func NewDefaultBasicAuth(users map[string]string) *BasicAuth {
 		Authenticator: func(username, password string) bool {
 			if len(users) != 0 {
 				if val, ok := users[username]; ok {
-					return CompareInputs(password, val)
+					// Small trick to prevent timing attacks by hashing both usernames and passwords before comparing
+					// them. This has its own overhead, but completely prevents timing attacks.
+					usernamesMatch := CompareInputs(username, users[username])
+					passwordsMatch := CompareInputs(password, val)
+
+					return usernamesMatch && passwordsMatch
 				}
 			}
 
