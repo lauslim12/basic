@@ -6,7 +6,7 @@ This package tries its best to implement all specifications in a customizable wa
 
 ## Why Basic?
 
-- **No dependencies.** Requires only needs standard Go.
+- **No dependencies.** Basic only needs standard Go and no dependencies are required.
 - **Battle-tested.** This library conforms to the standard library (which a lot of people use nowadays).
 - **Lightweight.** Basic is small in size, due to not having any dependencies.
 - **Secure.** Tries its best to implement as many security considerations as possible, but you **definitely have to use HTTPS in production if you intend to use this in production**.

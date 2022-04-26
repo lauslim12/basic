@@ -83,7 +83,7 @@ func NewDefaultBasicAuth(users map[string]string) *BasicAuth {
 	return &BasicAuth{
 		// Accepts username and password. If the list of users is populated, the function will
 		// check whether the username exists and then tries to securely compare the passwords. If the list of users
-		// does not exist / has the length of zero, the program will return false.
+		// does not exist / has the length of zero, the function will return false.
 		Authenticator: func(username, password string) bool {
 			if len(users) != 0 {
 				if val, ok := users[username]; ok {
@@ -107,7 +107,7 @@ func NewDefaultBasicAuth(users map[string]string) *BasicAuth {
 			http.Error(w, "Invalid username and/or password!", http.StatusUnauthorized)
 		}),
 
-		// Response that will be sent if the scheme is invalid.
+		// Response that will be sent if the scheme (header) is invalid.
 		InvalidSchemeResponse: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Invalid authentication scheme!", http.StatusUnauthorized)
 		}),
@@ -143,8 +143,8 @@ func (a *BasicAuth) SetWWWAuthenticate(w http.ResponseWriter) {
 	}
 }
 
-// Auth is a middleware to safeguard a route with the updated version of Basic Authorization,
-// which is RFC 7617.
+// Authenticate is a middleware to safeguard a route with the updated version of Basic
+// Authentication (RFC 7617).
 func (a *BasicAuth) Authenticate(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// Grabs the username and password of the Basic Authentication.
