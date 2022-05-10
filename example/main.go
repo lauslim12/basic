@@ -47,21 +47,36 @@ func NewFailureJSON(statusCode int, message string, err string, errorCode string
 func SendSuccess(w http.ResponseWriter, code int, message string, data []interface{}) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(code)
-	json.NewEncoder(w).Encode(NewSuccessJSON(code, message, data))
+
+	// Always check for the encoding error.
+	err := json.NewEncoder(w).Encode(NewSuccessJSON(code, message, data))
+	if err != nil {
+		log.Fatal(err.Error())
+	}
 }
 
 // SendFailure sends back a failure response to the client.
 func SendFailure(w http.ResponseWriter, code int, err string, errorCode string) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(code)
-	json.NewEncoder(w).Encode(NewFailureJSON(code, "Error!", err, errorCode))
+
+	// Always check for the encoding error.
+	encodeErr := json.NewEncoder(w).Encode(NewFailureJSON(code, "Error!", err, errorCode))
+	if encodeErr != nil {
+		log.Fatal(encodeErr.Error())
+	}
 }
 
 // Special simple auth route for authenticated users.
 func simpleAuth(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/plain")
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("Welcome to the private endpoint!"))
+
+	// According to docs and golangci-lint, `w.Write` may produce an error if the connection is hijacked.
+	_, err := w.Write([]byte("Welcome to the private endpoint!"))
+	if err != nil {
+		log.Fatal(err.Error())
+	}
 }
 
 // Special complex auth route for authenticated users.
