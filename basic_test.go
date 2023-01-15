@@ -8,7 +8,7 @@ import (
 
 // Tests the whole codebase.
 func TestAuthenticate(t *testing.T) {
-	users := map[string]string{"gerysantoso": "gerysantoso"}
+	users := map[string]string{"gerysantoso": "gerysantoso", "a_username": "a_password"}
 	tests := []struct {
 		name           string
 		username       string
@@ -17,9 +17,16 @@ func TestAuthenticate(t *testing.T) {
 		expectedStatus int
 	}{
 		{
-			name:           "test_success",
+			name:           "test_success_same_username_and_password",
 			username:       "gerysantoso",
 			password:       "gerysantoso",
+			auth:           NewDefaultBasicAuth(users),
+			expectedStatus: http.StatusOK,
+		},
+		{
+			name:           "test_different_username_and_password",
+			username:       "a_username",
+			password:       "a_password",
 			auth:           NewDefaultBasicAuth(users),
 			expectedStatus: http.StatusOK,
 		},
@@ -30,10 +37,18 @@ func TestAuthenticate(t *testing.T) {
 			auth:           NewDefaultBasicAuth(nil),
 			expectedStatus: http.StatusUnauthorized,
 		},
+
 		{
-			name:           "test_invalid_credentials",
+			name:           "test_invalid_credentials_1",
 			username:       "gery",
 			password:       "gery",
+			auth:           NewDefaultBasicAuth(users),
+			expectedStatus: http.StatusUnauthorized,
+		},
+		{
+			name:           "test_invalid_credentials_2",
+			username:       "test",
+			password:       "wrong_password",
 			auth:           NewDefaultBasicAuth(users),
 			expectedStatus: http.StatusUnauthorized,
 		},
