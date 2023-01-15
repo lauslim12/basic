@@ -2,6 +2,11 @@
 
 Changelog is used to keep track of version changes. The versioning scheme used is [SemVer](https://semver.org/). First integer is used for breaking change, second integer is used for major patches, and third integer is used for minor bug fixes.
 
+## Version 1.0.5 (15/01/2023)
+
+- Fix a bug where the username is compared again, thus resulting in a failed comparison because the username is matched with the password in the default map function.
+- Upgrade CI version in GitHub Actions.
+
 ## Version 1.0.4 (09/05/2022)
 
 - Improve CI by introducing three new checks: `go mod verify`, `go vet ./...`, and `go build -v ./...`.
